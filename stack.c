@@ -27,6 +27,7 @@ void push(struct stack *stack, int key)
     printf("\n%d pushed into the stack.\n", key);
     line();
 }
+
 void display(struct stack *stack)
 {
     line();
@@ -86,14 +87,13 @@ void main()
             pop(stack);
             break;
         case 3:
+
             peep(stack);
             break;
         case 4:
             display(stack);
             break;
         case 5:
-            printf("\nFinal stack : \n\n");
-            display(stack);
             line();
             printf("\nThanks for using! Have a great day :)\n");
             line();
