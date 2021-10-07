@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "line.h"
-#define MAX 10
+#define MAX 50
 
 struct stack
 {
@@ -16,27 +16,40 @@ void init(struct stack *stack)
     printf("\nStack initialized.\n");
     line();
 }
+void display(struct stack *stack)
+{
+    line();
+    if (stack->top == -1)
+    {
+        printf("\nStack is empty !\n");
+        line();
+    }
+    else
+    {
+        printf("\nStack : \n\n");
+        for (int i = stack->top; i >= 0; i--)
+        {
+            printf("    |  %d  |\n", stack->data[i]);
+        }
+        line();
+    }
+}
 
 void push(struct stack *stack, int key)
 {
     if (stack->top == MAX - 1)
-        printf("\nStack is full! You can't perform PUSH operation. \n");
-    stack->top++;
-    stack->data[stack->top] = key;
-    line();
-    printf("\n%d pushed into the stack.\n", key);
-    line();
-}
-
-void display(struct stack *stack)
-{
-    line();
-    printf("\nStack : \n\n");
-    for (int i = stack->top; i >= 0; i--)
     {
-        printf("    |  %d  |\n", stack->data[i]);
+        printf("\nStack is full! You can't perform PUSH operation. \n");
+        display(stack);
     }
-    line();
+    else
+    {
+        stack->top++;
+        stack->data[stack->top] = key;
+        line();
+        printf("\n%d pushed into the stack.\n", key);
+        line();
+    }
 }
 int pop(struct stack *stack)
 {
@@ -65,14 +78,30 @@ int peep(struct stack *stack)
         return tmp;
     }
 }
+void change(struct stack *stack, int pos, int val)
+{
+    int i = stack->top - pos + 1;
+    if (i >= 0 && i <= stack->top)
+    {
+        stack->data[i] = val;
+        printf("\nValue changed !\n");
+        line();
+    }
+    else
+    {
+        printf("\nInvalid position.\n");
+    }
+}
+
 void main()
 {
     int choice, data;
+    int a, b, c, d;
     struct stack *stack = (struct stack *)malloc(sizeof(struct stack));
     init(stack);
     while (1)
     {
-        printf("\n1.Push\n2.Pop\n3.Peep\n4.Display\n5.Exit");
+        printf("\n1.Push\n2.Pop\n3.Peep\n4.Change\n5.Display\n6.Exit\n");
         printf("\n\nEnter option : ");
         scanf("%d", &choice);
         switch (choice)
@@ -84,16 +113,26 @@ void main()
             push(stack, data);
             break;
         case 2:
-            pop(stack);
+            a = pop(stack);
             break;
         case 3:
-
-            peep(stack);
+            b = peep(stack);
             break;
         case 4:
-            display(stack);
+            printf("\n");
+            line();
+            printf("\nEnter the position where you want to change the value : ");
+            scanf("%d", &c);
+            line();
+            printf("\nEnter the value : ");
+            scanf("%d", &d);
+            line();
+            change(stack, c, d);
             break;
         case 5:
+            display(stack);
+            break;
+        case 6:
             line();
             printf("\nThanks for using! Have a great day :)\n");
             line();
